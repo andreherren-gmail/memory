@@ -75,5 +75,5 @@ function win(){
 }
 document.querySelectorAll('[data-pairs]').forEach(b=>b.addEventListener('click',()=>{pairCount=Number(b.dataset.pairs);start();}));
 document.querySelector('#restart').addEventListener('click',start);document.querySelector('#again').addEventListener('click',start);document.querySelector('#close-dialog').addEventListener('click',()=>document.querySelector('#victory').close());
-document.querySelector('#sound').addEventListener('click',e=>{sound=!sound;e.currentTarget.setAttribute('aria-pressed',sound);e.currentTarget.setAttribute('aria-label',sound?'Ton ausschalten':'Ton einschalten');e.currentTarget.textContent=sound?'♫':'♪̸';if(!sound&&audio)audio.suspend();});
+document.querySelector('#sound').addEventListener('click',e=>{sound=!sound;e.currentTarget.setAttribute('aria-pressed',sound);e.currentTarget.setAttribute('aria-label',sound?'Ton ausschalten':'Ton einschalten');if(!sound&&audio)audio.suspend();});
 start();
