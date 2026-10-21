@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="de">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#faf7ef"><meta name="apple-mobile-web-app-capable" content="yes"><title>Tierfreunde · Memory</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<main>
+<header><a class="brand" href="./" aria-label="Tierfreunde Startseite"><span class="brand-icon">✿</span> tierfreunde<span class="brand-dot">.</span></a><button id="sound" class="icon-button" aria-label="Ton ausschalten" aria-pressed="true">♫</button></header>
+<section class="intro"><div class="eyebrow"><span></span> KLEINE KARTEN, GROSSES STAUNEN</div><h1>Wer gehört<br>zusammen<span>?</span></h1><p>Finde die Tierpaare. Hör, wer sich freut!</p></section>
+<section class="game" aria-label="Memory-Spiel">
+<div class="game-toolbar"><div class="levels" aria-label="Schwierigkeit"><button data-pairs="3">Mini <span>6</span></button><button data-pairs="6" class="active" aria-pressed="true">Normal <span>12</span></button><button data-pairs="10">Knifflig <span>20</span></button></div><span class="little-flower">✳</span></div>
+<div class="progress-row"><span><strong id="pairs">0</strong> / <span id="total">6</span> Paare</span><span><strong id="moves">0</strong> Züge</span></div><div class="progress-track"><div id="progress"></div></div>
+<div id="board" class="board"></div>
+<div class="game-footer"><span id="hint" role="status" aria-live="polite">Dreh zwei Karten um. Wer versteckt sich hier?</span><button id="restart" aria-label="Neues Spiel">↻ <span>Neu mischen</span></button></div>
+</section>
+<footer><span class="footer-icon">♡</span> Ein kleines Spiel für große Entdecker.</footer>
+</main>
+<dialog id="victory"><div class="victory-icon">🌟</div><div class="eyebrow">TIERISCH GUT GEMACHT!</div><h2>Alle wieder vereint.</h2><p id="result"></p><button id="again">Noch eine Runde <span>↗</span></button><button id="close-dialog">Tiere noch mal ansehen</button></dialog>
+<div id="confetti" aria-hidden="true"></div>
+<script src="app.js"></script>
+</body></html>
