@@ -1,28 +1,40 @@
-# Tierfreunde – Memory-Prototyp
+# MemoryZoo
 
-Responsiver Design-Prototyp für iPhone und Desktop, ohne Build oder externe JavaScript-Abhängigkeiten.
+Kinder-Memory mit illustrierten Tierkarten, einem kurzen überspringbaren Tier-Intro und synthetischen Tierlauten bei gefundenen Paaren. Ohne Werbung, Anmeldung, Tracking oder sichtbare Lesetexte im Spiel. Das Intro zeigt den Namen MemoryZoo.
 
-## Starten
+## Android-Testversion
+
+[MemoryZoo-test.apk herunterladen](downloads/MemoryZoo-test.apk) · Android 8.0 oder neuer, aktuelles Android System WebView empfohlen.
+
+Die APK auf einem Android-Gerät herunterladen, öffnen und bei Bedarf für den verwendeten Browser die Installation aus dieser Quelle zulassen. Die Version ist mit einem lokalen Entwicklungsschlüssel signiert, für direktes Testen gedacht und noch nicht für den Play Store veröffentlicht. Die Android-Laufzeit muss noch auf einem echten Gerät geprüft werden. Bilder, Intro und synthetische Sounds sind vollständig enthalten; die App hat keine Internetberechtigung.
+
+## Webversion
 
 ```sh
 cd /workspace/memory
 npm start
 ```
 
-Der lokale Entwicklungsserver läuft auf Port 3000. Zum Testen auf einem iPhone muss die Seite über einen vom iPhone erreichbaren HTTPS-Host bereitgestellt werden; ein Cloud-localhost ist auf dem iPhone nicht erreichbar.
+Ein einfacher HTTP-Server startet auf Port 3000. Auf dem iPhone die veröffentlichte HTTPS-Webseite in Safari öffnen; eine APK läuft nur auf Android.
 
-## Funktionen
+## Android selbst bauen
 
-- 6, 12 oder 20 illustrierte Karten mit zufälligen Tierpaaren, Auswahl über Kartenstapel-Icons
-- Kartenwendung, Paaranimation, Fortschritt und Siegesdialog
-- Tierlaute über Web Audio, erst nach Interaktion; Ton abschaltbar
-- Die Laute sind für den Prototyp synthetisch nachempfunden. Für die finale Fassung sind echte, lizenzierte Tieraufnahmen vorgesehen.
-- Reduzierte Bewegung berücksichtigt, Tastaturbedienung und Kartenbeschriftungen
+Benötigt werden Java mit dem Modul `jdk.compiler`, Android Platform 35 (`android.jar`) und Android Build Tools 35.0.0. Das Script nutzt `java com.sun.tools.javac.Main`, AAPT2, D8, zipalign und apksigner. Kein Gradle und keine externen Java-Bibliotheken erforderlich.
 
-Die Tiere stammen aus einem generierten, einheitlichen Illustrationsatlas (`assets/animals.png`). Kartenrückseite und Logo sind SVG-Grafiken. Kein Offline-Service-Worker und keine App-Store-Veröffentlichung in diesem Prototyp.
+```sh
+./scripts/build-apk.sh
+```
 
-## Prüfen
+Ergebnis: `dist/MemoryZoo-test.apk`. Alternative Pfade lassen sich mit `MEMORYZOO_BUILD_TOOLS`, `MEMORYZOO_ANDROID_JAR` und `MEMORYZOO_SIGNING_DIR` setzen. Die Standardpfade stehen im Script. Der Entwicklungsschlüssel wird außerhalb des Repositorys unter `/workspace/.memoryzoo-signing/` erzeugt und muss für kompatible Updates aufbewahrt werden; er gehört nicht ins Repository. Für eine Store-Veröffentlichung ist eine gesonderte Release-Signierung nötig.
+
+Die Android-Hülle lädt ausschließlich mitgelieferte Dateien über eine lokale HTTPS-WebView-Adresse. Externe Navigation, Dateizugriff und unverschlüsselte Requests sind deaktiviert. Audio pausiert beim Verlassen der App und wird beim nächsten Kartentipp wieder aktiviert.
+
+## Prüfung und Gestaltung
 
 ```sh
 npm run check
 ```
+
+Der Spielablauf, Intro/Überspringen, Audioausgabe und die Darstellung in vier Handyformaten wurden in Chromium geprüft. APK-Inhalt, Manifest und Signatur sind validiert. Diese Prüfungen ersetzen keinen Test auf einem echten Android-Gerät.
+
+Die Tierillustrationen liegen als generierter Bildatlas in `assets/animals.png`; Logo und Kartenrückseite sind SVG-Dateien. Die Sounds sind synthetische Annäherungen an Tierlaute, keine echten Aufnahmen. Reduzierte Bewegung, Tastaturbedienung und zugängliche Kartenbeschriftungen werden berücksichtigt.

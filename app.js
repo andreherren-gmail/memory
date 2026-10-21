@@ -95,3 +95,19 @@ document.querySelectorAll('[data-pairs]').forEach(b=>b.addEventListener('click',
 document.querySelector('#restart').addEventListener('click',start);document.querySelector('#again').addEventListener('click',start);document.querySelector('#close-dialog').addEventListener('click',()=>document.querySelector('#victory').close());
 document.querySelector('#sound').addEventListener('click',e=>{sound=!sound;e.currentTarget.setAttribute('aria-pressed',sound);e.currentTarget.setAttribute('aria-label',sound?'Ton ausschalten':'Ton einschalten');if(sound){activateAudio().then(ready=>{if(ready)tone(660,.18,'sine',.12);});}else{stopVoices();if(masterGain){masterGain.gain.cancelScheduledValues(0);masterGain.gain.value=0;}}});
 start();
+
+// A short welcome, once per launch. A tap always skips it immediately.
+const intro=document.querySelector('#intro');
+const main=document.querySelector('main');
+main.inert=true;
+let introTimer;
+function closeIntro(withSound=false){
+ if(intro.hidden)return;
+ clearTimeout(introTimer);intro.hidden=true;main.inert=false;
+ if(withSound)activateAudio().then(ready=>{if(ready)[523,659,784].forEach((f,i)=>tone(f,.18,'sine',.07,i*.1));});
+ document.querySelector('#restart').focus({preventScroll:true});
+}
+document.querySelector('#intro-play').addEventListener('click',()=>closeIntro(true));
+intro.addEventListener('keydown',e=>{if(e.key==='Escape')closeIntro();});
+document.querySelector('#intro-play').focus({preventScroll:true});
+introTimer=setTimeout(closeIntro,matchMedia('(prefers-reduced-motion: reduce)').matches?900:2800);
