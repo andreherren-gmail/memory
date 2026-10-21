@@ -1,10 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <g fill="#ff792a">
-    <ellipse cx="32" cy="15" rx="10" ry="13"/>
-    <ellipse cx="32" cy="15" rx="10" ry="13" transform="rotate(72 32 32)"/>
-    <ellipse cx="32" cy="15" rx="10" ry="13" transform="rotate(144 32 32)"/>
-    <ellipse cx="32" cy="15" rx="10" ry="13" transform="rotate(216 32 32)"/>
-    <ellipse cx="32" cy="15" rx="10" ry="13" transform="rotate(288 32 32)"/>
-  </g>
-  <circle cx="32" cy="32" r="10" fill="#ffda24"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#ffda24">
+  <ellipse cx="12" cy="25" rx="7" ry="10" transform="rotate(-28 12 25)"/>
+  <ellipse cx="25" cy="14" rx="7" ry="10" transform="rotate(-8 25 14)"/>
+  <ellipse cx="40" cy="14" rx="7" ry="10" transform="rotate(8 40 14)"/>
+  <ellipse cx="53" cy="25" rx="7" ry="10" transform="rotate(28 53 25)"/>
+  <path d="M32 30c-8 0-11 6-15 12-4 5-7 12-2 16 5 4 11-1 17-1s12 5 17 1c5-4 2-11-2-16-4-6-7-12-15-12Z"/>
 </svg>
