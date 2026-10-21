@@ -12,15 +12,32 @@ const animals=[
  {id:'frog',emoji:'🐸',name:'Frosch',call:'Quaaak!',bg:'#dde9cd'}
 ];
 const board=document.querySelector('#board'),hint=document.querySelector('#hint');
-let pairCount=6,found=0,moves=0,open=[],locked=false,sound=true,audio,round=0;
+let pairCount=6,found=0,moves=0,open=[],locked=false,sound=true,audio,masterGain,round=0;
 const timers=new Set();
+const voices=new Set();
+function activateAudio(){
+ if(!sound)return Promise.resolve(false);
+ try{
+  // Safari on iPhone otherwise treats Web Audio as ambient/silent-mode audio.
+  if(navigator.audioSession){try{navigator.audioSession.type='playback';}catch{}}
+  if(!audio||audio.state==='closed'){
+   audio=new (window.AudioContext||window.webkitAudioContext)();
+   masterGain=audio.createGain();masterGain.connect(audio.destination);
+  }
+  masterGain.gain.cancelScheduledValues(0);masterGain.gain.value=1;
+  // Invoke resume within the actual tap, including after an iOS interruption.
+  return audio.resume().then(()=>audio.state==='running').catch(()=>false);
+ }catch{return Promise.resolve(false);}
+}
+function stopVoices(){for(const voice of voices){try{voice.stop();}catch{}}voices.clear();}
+
 function later(fn,delay){const id=setTimeout(()=>{timers.delete(id);fn();},delay);timers.add(id);}
 function tone(freq,duration,type='sine',volume=.12,delay=0,end=freq){
- if(!sound||!audio)return;
+ if(!sound||!audio||audio.state!=='running')return;
  const t=audio.currentTime+delay,osc=audio.createOscillator(),gain=audio.createGain();
  osc.type=type;osc.frequency.setValueAtTime(freq,t);osc.frequency.exponentialRampToValueAtTime(Math.max(20,end),t+duration);
  gain.gain.setValueAtTime(.001,t);gain.gain.exponentialRampToValueAtTime(volume,t+.02);gain.gain.exponentialRampToValueAtTime(.001,t+duration);
- osc.connect(gain);gain.connect(audio.destination);osc.start(t);osc.stop(t+duration);
+ osc.connect(gain);gain.connect(masterGain);voices.add(osc);osc.onended=()=>{voices.delete(osc);osc.disconnect();gain.disconnect();};osc.start(t);osc.stop(t+duration);
 }
 // Playful synthesized animal calls for this prototype; no recordings or network needed.
 function animalSound(id){
@@ -40,7 +57,7 @@ function animalSound(id){
 function shuffle(items){for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]];}return items;}
 function update(){document.querySelector('#progress').style.width=`${found/pairCount*100}%`;const track=document.querySelector('.progress-track');track.setAttribute('aria-valuemax',pairCount);track.setAttribute('aria-valuenow',found);}
 function start(){
- round++;timers.forEach(clearTimeout);timers.clear();if(audio&&audio.state==='running')audio.suspend();
+ round++;timers.forEach(clearTimeout);timers.clear();stopVoices();
  document.querySelector('#victory').close();document.querySelector('#confetti').replaceChildren();
  found=0;moves=0;open=[];locked=false;update();hint.textContent='Dreh zwei Karten um. Wer versteckt sich hier?';
  board.className='board'+(pairCount===3?' mini':pairCount===10?' large':'');board.replaceChildren();
@@ -54,8 +71,9 @@ function start(){
 }
 function flip(card,animal){
  if(locked||card.classList.contains('flipped')||card.classList.contains('matched'))return;
- if(sound){try{audio??=new (window.AudioContext||window.webkitAudioContext)();audio.resume().catch(()=>{});}catch{}}
- card.classList.add('flipped');card.setAttribute('aria-label',animal.name);card.setAttribute('aria-pressed','true');tone(450,.09,'sine',.045,0,720);open.push({card,animal});
+ const currentRound=round;
+ activateAudio().then(ready=>{if(ready&&round===currentRound)tone(450,.09,'sine',.045,0,720);});
+ card.classList.add('flipped');card.setAttribute('aria-label',animal.name);card.setAttribute('aria-pressed','true');open.push({card,animal});
  if(open.length<2)return;
  moves++;update();locked=true;
  const [a,b]=open;
@@ -75,5 +93,5 @@ function win(){
 }
 document.querySelectorAll('[data-pairs]').forEach(b=>b.addEventListener('click',()=>{pairCount=Number(b.dataset.pairs);start();}));
 document.querySelector('#restart').addEventListener('click',start);document.querySelector('#again').addEventListener('click',start);document.querySelector('#close-dialog').addEventListener('click',()=>document.querySelector('#victory').close());
-document.querySelector('#sound').addEventListener('click',e=>{sound=!sound;e.currentTarget.setAttribute('aria-pressed',sound);e.currentTarget.setAttribute('aria-label',sound?'Ton ausschalten':'Ton einschalten');if(!sound&&audio)audio.suspend();});
+document.querySelector('#sound').addEventListener('click',e=>{sound=!sound;e.currentTarget.setAttribute('aria-pressed',sound);e.currentTarget.setAttribute('aria-label',sound?'Ton ausschalten':'Ton einschalten');if(sound){activateAudio().then(ready=>{if(ready)tone(660,.18,'sine',.12);});}else{stopVoices();if(masterGain){masterGain.gain.cancelScheduledValues(0);masterGain.gain.value=0;}}});
 start();
