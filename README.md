@@ -13,13 +13,13 @@ Der lokale Entwicklungsserver läuft auf Port 3000. Zum Testen auf einem iPhone 
 
 ## Funktionen
 
-- 6, 12 oder 20 Karten mit zufälligen Tierpaaren
+- 6, 12 oder 20 illustrierte Karten mit zufälligen Tierpaaren, Auswahl über Kartenstapel-Icons
 - Kartenwendung, Paaranimation, Fortschritt und Siegesdialog
 - Tierlaute über Web Audio, erst nach Interaktion; Ton abschaltbar
 - Die Laute sind für den Prototyp synthetisch nachempfunden. Für die finale Fassung sind echte, lizenzierte Tieraufnahmen vorgesehen.
 - Reduzierte Bewegung berücksichtigt, Tastaturbedienung und Kartenbeschriftungen
 
-Die optionalen Google Fonts benötigen Internet; Systemschriften dienen als Fallback. Emojis werden je nach Gerät unterschiedlich dargestellt. Kein Offline-Service-Worker und keine App-Store-Veröffentlichung in diesem Prototyp.
+Die Tiere stammen aus einem generierten, einheitlichen Illustrationsatlas (`assets/animals.png`). Kartenrückseite und Logo sind SVG-Grafiken. Kein Offline-Service-Worker und keine App-Store-Veröffentlichung in diesem Prototyp.
 
 ## Prüfen
 

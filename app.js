@@ -47,8 +47,8 @@ function start(){
  document.querySelectorAll('[data-pairs]').forEach(b=>{const active=Number(b.dataset.pairs)===pairCount;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active);});
  const selected=shuffle([...animals]).slice(0,pairCount);
  shuffle([...selected,...selected]).forEach((animal,index)=>{
- const b=document.createElement('button');b.className='card';b.style.setProperty('--animal-bg',animal.bg);b.setAttribute('aria-label',`Karte ${index+1} aufdecken`);b.setAttribute('aria-pressed','false');
- b.innerHTML=`<span class="card-inner"><span class="face back" aria-hidden="true"><span class="back-symbol">✿</span></span><span class="face front" aria-hidden="true"><span>${animal.emoji}</span></span></span>`;
+ const b=document.createElement('button');b.className='card';const artIndex=animals.indexOf(animal);b.style.setProperty('--animal-x',`${artIndex%5*25}%`);b.style.setProperty('--animal-y',`${Math.floor(artIndex/5)*100}%`);b.setAttribute('aria-label',`Karte ${index+1} aufdecken`);b.setAttribute('aria-pressed','false');
+ b.innerHTML=`<span class="card-inner"><span class="face back" aria-hidden="true"></span><span class="face front" aria-hidden="true"><span class="animal-art"></span></span></span>`;
  b.addEventListener('click',()=>flip(b,animal));board.append(b);
  });
 }
@@ -70,7 +70,7 @@ function flip(card,animal){
 function win(){
  document.querySelector('#result').textContent=`Du hast alle ${pairCount} Tierpaare in ${moves} Zügen gefunden.`;document.querySelector('#victory').showModal();
  [523,659,784,1047].forEach((f,i)=>tone(f,.3,'sine',.09,i*.15));
- if(!matchMedia('(prefers-reduced-motion: reduce)').matches)for(let i=0;i<45;i++){const bit=document.createElement('i');bit.className='confetto';bit.style.left=Math.random()*100+'%';bit.style.background=['#c4d1a8','#e4a27f','#ebce7c','#adc9c4'][i%4];bit.style.animationDelay=Math.random()*.7+'s';document.querySelector('#confetti').append(bit);}
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches)for(let i=0;i<45;i++){const bit=document.createElement('i');bit.className='confetto';bit.style.left=Math.random()*100+'%';bit.style.background=['#2345a3','#e57c38','#f5c640','#f4ebd4'][i%4];bit.style.animationDelay=Math.random()*.7+'s';document.querySelector('#confetti').append(bit);}
  later(()=>document.querySelector('#confetti').replaceChildren(),4000);
 }
 document.querySelectorAll('[data-pairs]').forEach(b=>b.addEventListener('click',()=>{pairCount=Number(b.dataset.pairs);start();}));
