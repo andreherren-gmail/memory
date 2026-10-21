@@ -38,7 +38,7 @@ function animalSound(id){
  }
 }
 function shuffle(items){for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]];}return items;}
-function update(){document.querySelector('#pairs').textContent=found;document.querySelector('#total').textContent=pairCount;document.querySelector('#moves').textContent=moves;document.querySelector('#progress').style.width=`${found/pairCount*100}%`;}
+function update(){document.querySelector('#progress').style.width=`${found/pairCount*100}%`;const track=document.querySelector('.progress-track');track.setAttribute('aria-valuemax',pairCount);track.setAttribute('aria-valuenow',found);}
 function start(){
  round++;timers.forEach(clearTimeout);timers.clear();if(audio&&audio.state==='running')audio.suspend();
  document.querySelector('#victory').close();document.querySelector('#confetti').replaceChildren();
@@ -48,7 +48,7 @@ function start(){
  const selected=shuffle([...animals]).slice(0,pairCount);
  shuffle([...selected,...selected]).forEach((animal,index)=>{
  const b=document.createElement('button');b.className='card';b.style.setProperty('--animal-bg',animal.bg);b.setAttribute('aria-label',`Karte ${index+1} aufdecken`);b.setAttribute('aria-pressed','false');
- b.innerHTML=`<span class="card-inner"><span class="face back" aria-hidden="true"><span class="back-symbol">✿</span></span><span class="face front" aria-hidden="true"><span>${animal.emoji}</span><small>${animal.name}</small></span></span>`;
+ b.innerHTML=`<span class="card-inner"><span class="face back" aria-hidden="true"><span class="back-symbol">✿</span></span><span class="face front" aria-hidden="true"><span>${animal.emoji}</span></span></span>`;
  b.addEventListener('click',()=>flip(b,animal));board.append(b);
  });
 }
