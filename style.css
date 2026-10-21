@@ -5,3 +5,5 @@ body{background:#e9edde;min-height:100vh;min-height:100dvh}main{max-width:480px;
 
 /* Miniature card grids show the actual number of cards without reading. */
 .levels button{display:flex;align-items:center;justify-content:center;padding:7px;min-width:48px}.card-pattern{display:grid;gap:2px;width:29px;height:29px;align-content:center}.pattern-3,.pattern-6{grid-template-columns:repeat(3,1fr)}.pattern-10{grid-template-columns:repeat(4,1fr)}.card-pattern i{display:block;background:currentColor;border-radius:1.5px;height:5px}.pattern-3 i{height:10px}.pattern-6 i{height:5.5px}.pattern-10 i{height:4px}.game-toolbar .little-flower{font-size:32px;line-height:1;flex:0 0 auto;color:#a5b386}.game-toolbar .icon-button{flex-shrink:0}
+
+.game-toolbar .game-logo{display:block;width:40px;height:40px;flex:0 0 40px;object-fit:contain}
