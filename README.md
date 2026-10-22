@@ -2,6 +2,10 @@
 
 Kinder-Memory mit illustrierten Tierkarten, einem kurzen überspringbaren Tier-Intro und synthetischen Tierlauten bei gefundenen Paaren. Ohne Werbung, Anmeldung, Tracking oder sichtbare Lesetexte im Spiel. Das Intro zeigt den Namen MemoryZoo.
 
+## Premium-Ausrichtung (Arbeitsstand)
+
+Die geplanten verbindlichen Qualitätskriterien zu Werbefreiheit, Trackingfreiheit, Eltern-Zeitbox, sanfter Gestaltung, echten Tierlauten und Namensstrategie stehen in [PREMIUM_KRITERIEN.md](PREMIUM_KRITERIEN.md). **Diese Punkte sind noch nicht alle umgesetzt.** Die Namen MemoryZoo, SafeMemory und „Safe Games for Kids“ sind für den weltweiten Verkauf noch nicht markenrechtlich freigegeben.
+
 ## Android-Testversion
 
 [MemoryZoo-test.apk herunterladen](downloads/MemoryZoo-test.apk) · Android 8.0 oder neuer, aktuelles Android System WebView empfohlen.
